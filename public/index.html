@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agro Super – Gestión de Rutas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ======================== SELECTOR DE ROL ======================== -->
+  <div id="view-home" class="view active">
+    <div class="home-header">
+      <div class="logo-area">
+        <div class="logo-circle">AS</div>
+        <div>
+          <h1 class="logo-title">Agro Super</h1>
+          <p class="logo-sub">Gestión Digital de Rutas</p>
+        </div>
+      </div>
+    </div>
+    <div class="home-body">
+      <p class="home-welcome">Selecciona tu rol para continuar</p>
+      <div class="role-cards">
+        <div class="role-card" id="btn-conductor" onclick="navigate('conductor')">
+          <div class="role-icon">🚚</div>
+          <div class="role-label">Conductor</div>
+          <div class="role-desc">Ver mis rutas asignadas</div>
+          <div class="role-arrow">→</div>
+        </div>
+        <div class="role-card" id="btn-timbrador" onclick="navigate('timbrador')">
+          <div class="role-icon">📱</div>
+          <div class="role-label">Timbrador</div>
+          <div class="role-desc">Validar visita en destino</div>
+          <div class="role-arrow">→</div>
+        </div>
+        <div class="role-card" id="btn-gestor" onclick="navigate('gestor')">
+          <div class="role-icon">🗂️</div>
+          <div class="role-label">Gestor</div>
+          <div class="role-desc">Administrar STs y rutas</div>
+          <div class="role-arrow">→</div>
+        </div>
+      </div>
+    </div>
+    <div class="home-footer">
+      <span>Mockup v1.0 — Licitación Digitalización 2026</span>
+    </div>
+  </div>
+
+  <!-- ======================== VISTA CONDUCTOR ======================== -->
+  <div id="view-conductor" class="view">
+    <div class="topbar">
+      <button class="btn-back" onclick="navigate('home')">← Volver</button>
+      <div class="topbar-title">
+        <div class="topbar-icon">🚚</div>
+        <span>Mis Rutas</span>
+      </div>
+      <div class="topbar-user">JM</div>
+    </div>
+
+    <div class="page-body">
+      <div class="section-header">
+        <h2>Rutas Asignadas</h2>
+        <span class="badge badge-green">Hoy · 22 Mar</span>
+      </div>
+
+      <div class="route-list" id="route-list">
+        <!-- generadas por JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- DETALLE DE RUTA (sub-vista conductor) -->
+  <div id="view-ruta-detalle" class="view">
+    <div class="topbar">
+      <button class="btn-back" onclick="navigate('conductor')">← Rutas</button>
+      <div class="topbar-title">
+        <div class="topbar-icon">📍</div>
+        <span>Detalle de Ruta</span>
+      </div>
+      <div class="topbar-user">JM</div>
+    </div>
+    <div class="page-body">
+      <div class="detail-card" id="detalle-card">
+        <!-- generado por JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== VISTA TIMBRADOR ======================== -->
+  <div id="view-timbrador" class="view">
+    <div class="topbar">
+      <button class="btn-back" onclick="navigate('home')">← Volver</button>
+      <div class="topbar-title">
+        <div class="topbar-icon">📱</div>
+        <span>Timbrador</span>
+      </div>
+      <div class="topbar-user">CA</div>
+    </div>
+
+    <div class="page-body">
+      <div class="section-header">
+        <h2>Validar Visita</h2>
+        <span class="badge badge-blue">Planta Los Vilos</span>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab active" id="tab-qr" onclick="switchTab('qr')">📷 QR</button>
+        <button class="tab" id="tab-patente" onclick="switchTab('patente')">🚗 Patente</button>
+        <button class="tab" id="tab-st" onclick="switchTab('st')">🔑 ST</button>
+      </div>
+
+      <!-- Tab QR -->
+      <div id="panel-qr" class="tab-panel active">
+        <div class="qr-scan-area" id="qr-scan-area" onclick="simularScan()">
+          <span class="corner tl"></span>
+          <span class="corner tr"></span>
+          <span class="corner bl"></span>
+          <span class="corner br"></span>
+          <div class="scan-line"></div>
+          <p class="scan-hint">Toca para simular escaneo</p>
+        </div>
+      </div>
+
+      <!-- Tab Patente -->
+      <div id="panel-patente" class="tab-panel">
+        <div class="input-group">
+          <label>Patente del vehículo</label>
+          <input type="text" id="input-patente" placeholder="Ej: BBDX92" maxlength="8" class="input-field input-upper" />
+          <button class="btn-primary" onclick="validarPatente()">Validar Patente</button>
+        </div>
+      </div>
+
+      <!-- Tab ST -->
+      <div id="panel-st" class="tab-panel">
+        <div class="input-group">
+          <label>Código ST</label>
+          <input type="text" id="input-st" placeholder="Ej: ST-A4F2X9" maxlength="12" class="input-field input-upper" />
+          <button class="btn-primary" onclick="validarST()">Validar ST</button>
+        </div>
+      </div>
+
+      <!-- Resultado -->
+      <div id="resultado-timbrador" class="resultado hidden"></div>
+
+      <!-- Historial rápido -->
+      <div class="section-header mt-24">
+        <h3>Últimas validaciones</h3>
+      </div>
+      <div class="historial-list" id="historial-list">
+        <!-- generado por JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== VISTA GESTOR ======================== -->
+  <div id="view-gestor" class="view">
+    <div class="topbar">
+      <button class="btn-back" onclick="navigate('home')">← Volver</button>
+      <div class="topbar-title">
+        <div class="topbar-icon">🗂️</div>
+        <span>Gestión de STs</span>
+      </div>
+      <div class="topbar-user">GV</div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- Estadísticas rápidas -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-total">8</div>
+          <div class="stat-label">STs Activas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num green" id="stat-ok">5</div>
+          <div class="stat-label">Completadas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num orange" id="stat-pend">3</div>
+          <div class="stat-label">Pendientes</div>
+        </div>
+      </div>
+
+      <!-- Formulario crear ST -->
+      <div class="card mt-16">
+        <div class="card-header" onclick="toggleForm()">
+          <span>➕ Crear nueva ST</span>
+          <span id="form-toggle-icon">▾</span>
+        </div>
+        <div id="form-crear-st" class="card-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Empresa / Destino</label>
+              <input type="text" id="g-empresa" class="input-field" placeholder="Ej: Frigorífico Temuco" />
+            </div>
+            <div class="form-group">
+              <label>Dirección</label>
+              <input type="text" id="g-dir" class="input-field" placeholder="Av. Industrial 4204" />
+            </div>
+            <div class="form-group">
+              <label>Conductor</label>
+              <select id="g-conductor" class="input-field">
+                <option value="">Seleccionar conductor…</option>
+                <option>Juan Martínez</option>
+                <option>Carlos Ríos</option>
+                <option>Pablo Soto</option>
+                <option>María González</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Patente vehículo</label>
+              <input type="text" id="g-patente" class="input-field input-upper" placeholder="BBDX92" maxlength="8" />
+            </div>
+            <div class="form-group">
+              <label>Fecha y hora estimada</label>
+              <input type="datetime-local" id="g-fecha" class="input-field" />
+            </div>
+
+          </div>
+          <button class="btn-primary mt-8" onclick="crearST()">Crear ST</button>
+        </div>
+      </div>
+
+      <!-- Tabla STs -->
+      <div class="section-header mt-24">
+        <h3>Registro de STs</h3>
+      </div>
+      <div class="table-wrapper">
+        <table class="st-table">
+          <thead>
+            <tr>
+              <th>ST</th>
+              <th>Destino</th>
+              <th>Conductor</th>
+              <th>Patente</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-sts">
+            <!-- generado por JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

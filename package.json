@@ -1,0 +1,13 @@
+{
+  "name": "agro-super-mockup",
+  "version": "1.0.0",
+  "description": "Mockup digitalización visitas Agro Super",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
